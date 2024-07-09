@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI 測驗</title>
+	<link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('page 3.jpg'); /* 替換成你的背景圖片URL */
+            background-size: cover; /* 使用 cover 保持圖片比例並覆蓋整個頁面 */
+            background-position: center; /* 圖片居中顯示 */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8); /* 半透明白色背景 */
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .question, .result, .start-button {
+            display: none;
+        }
+        .question.active, .result.active, .start-button.active {
+            display: block;
+        }
+        .question p {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="start-button active">
+            <button onclick="startTest()">開始測驗</button>
+        </div>
+        <form id="mbti-form">
+            <div class="question" id="question-1">
+                <p>當你參加一個聚會時，你會：</p>
+                <label><input type="radio" name="q1" value="E"> 享受與許多人交談，結交新朋友</label><br>
+                <label><input type="radio" name="q1" value="I"> 喜歡與幾個熟悉的人深聊</label><br>
+                <button type="button" onclick="nextQuestion(2)">下一題</button>
+            </div>
+            <div class="question" id="question-2">
+                <p>你更喜歡獲取資訊的方式是：</p>
+                <label><input type="radio" name="q2" value="S"> 通過現實世界的觀察和經驗</label><br>
+                <label><input type="radio" name="q2" value="N"> 通過直覺和靈感</label><br>
+                <button type="button" onclick="nextQuestion(3)">下一題</button>
+            </div>
+            <div class="question" id="question-3">
+                <p>當你做決定時，你更注重：</p>
+                <label><input type="radio" name="q3" value="T"> 邏輯和理性</label><br>
+                <label><input type="radio" name="q3" value="F"> 個人情感和價值觀</label><br>
+                <button type="button" onclick="nextQuestion(4)">下一題</button>
+            </div>
+            <div class="question" id="question-4">
+                <p>你更傾向於：</p>
+                <label><input type="radio" name="q4" value="J"> 有條理和計劃性</label><br>
+                <label><input type="radio" name="q4" value="P"> 隨意和靈活性</label><br>
+                <button type="button" onclick="nextQuestion(5)">下一題</button>
+            </div>
+            <div class="question" id="question-5">
+                <p>在工作中，你更喜歡：</p>
+                <label><input type="radio" name="q5" value="E"> 與他人合作</label><br>
+                <label><input type="radio" name="q5" value="I"> 獨立完成</label><br>
+                <button type="button" onclick="nextQuestion(6)">下一題</button>
+            </div>
+            <div class="question" id="question-6">
+                <p>你更喜歡處理：</p>
+                <label><input type="radio" name="q6" value="S"> 現實的問題</label><br>
+                <label><input type="radio" name="q6" value="N"> 想像中的可能性</label><br>
+                <button type="button" onclick="nextQuestion(7)">下一題</button>
+            </div>
+            <div class="question" id="question-7">
+                <p>你在做決定時會：</p>
+                <label><input type="radio" name="q7" value="T"> 依賴分析和邏輯</label><br>
+                <label><input type="radio" name="q7" value="F"> 考慮他人的感受</label><br>
+                <button type="button" onclick="nextQuestion(8)">下一題</button>
+            </div>
+            <div class="question" id="question-8">
+                <p>你更喜歡：</p>
+                <label><input type="radio" name="q8" value="J"> 安排好一切</label><br>
+                <label><input type="radio" name="q8" value="P"> 保持選項開放</label><br>
+                <button type="button" onclick="nextQuestion(9)">下一題</button>
+            </div>
+            <div class="question" id="question-9">
+                <p>在社交場合中，你：</p>
+                <label><input type="radio" name="q9" value="E"> 感到精力充沛</label><br>
+                <label><input type="radio" name="q9" value="I"> 感到精力被耗盡</label><br>
+                <button type="button" onclick="nextQuestion(10)">下一題</button>
+            </div>
+            <div class="question" id="question-10">
+                <p>你更重視：</p>
+                <label><input type="radio" name="q10" value="S"> 具體的事實</label><br>
+                <label><input type="radio" name="q10" value="N"> 抽象的理論</label><br>
+                <button type="button" onclick="calculateResult()">提交</button>
+            </div>
+        </form>
+        <div class="result" id="result">
+            <h2>測驗結果</h2>
+            <p id="mbti-type"></p>
+            <img id="result-image1" src="" alt="MBTI 圖片1">
+            <img id="result-image2" src="" alt="MBTI 圖片2">
+		<a href="https://docs.google.com/forms/d/e/1FAIpQLSdAYTCnGY0-np1FnMkYly1rfzY0gqUr5_2HinHCFbTKulrLFw/viewform"target="_blank"class="signup-button">點我報名</a>
+        </div>
+    </div>
+    <script>
+        function startTest() {
+            document.querySelector('.start-button').classList.remove('active');
+            document.getElementById('question-1').classList.add('active');
+        }
+
+        function nextQuestion(questionNumber) {
+            document.querySelector('.question.active').classList.remove('active');
+            document.getElementById('question-' + questionNumber).classList.add('active');
+        }
+
+        function calculateResult() {
+            var E = 0, I = 0, S = 0, N = 0, T = 0, F = 0, J = 0, P = 0;
+            var elements = document.querySelectorAll('input[type=radio]:checked');
+            elements.forEach(function(element) {
+                switch(element.value) {
+                    case 'E': E++; break;
+                    case 'I': I++; break;
+                    case 'S': S++; break;
+                    case 'N': N++; break;
+                    case 'T': T++; break;
+                    case 'F': F++; break;
+                    case 'J': J++; break;
+                    case 'P': P++; break;
+                }
+            });
+            var result = (E > I ? 'E' : 'I') + (S > N ? 'S' : 'N') + (T > F ? 'T' : 'F') + (J > P ? 'J' : 'P');
+            document.getElementById('mbti-type').textContent = result;
+
+            var imageUrls1 = {
+                'ENFJ': 'ENFJ 1.jpg',
+                'ENFP': 'ENFP 1.jpg',
+                'ENTJ': 'ENTJ 1.jpg',
+                'ENTP': 'ENTP 1.jpg',
+                'ESFJ': 'ESFJ 1.jpg',
+                'ESFP': 'ESFP 1.jpg',
+                'ESTJ': 'ESTJ 1.jpg',
+                'ESTP': 'ESTP 1.jpg',
+                'INFJ': 'INFJ 1.jpg',
+                'INFP': 'INFP 1.jpg',
+                'INTJ': 'INTJ 1.jpg',
+                'INTP': 'INTP 1.jpg',
+                'ISFJ': 'ISFJ 1.jpg',
+                'ISFP': 'ISFP 1.jpg',
+                'ISTJ': 'ISTJ 1.jpg',
+                'ISTP': 'ISTP 1.jpg',
+            };
+
+            var imageUrls2 = {
+                'ENFJ': 'ENFJ 2.jpg',
+                'ENFP': 'ENFP 2.jpg',
+                'ENTJ': 'ENTJ 2.jpg',
+                'ENTP': 'ENTP 2.jpg',
+                'ESFJ': 'ESFJ 2.jpg',
+                'ESFP': 'ESFP 2.jpg',
+                'ESTJ': 'ESTJ 2.jpg',
+                'ESTP': 'ESTP 2.jpg',
+                'INFJ': 'INFJ 2.jpg',
+                'INFP': 'INFP 2.jpg',
+                'INTJ': 'INTJ 2.jpg',
+                'INTP': 'INTP 2.jpg',
+                'ISFJ': 'ISFJ 2.jpg',
+                'ISFP': 'ISFP 2.jpg',
+                'ISTJ': 'ISTJ 2.jpg',
+                'ISTP': 'ISTP 2.jpg'
+            };
+
+            document.getElementById('result-image1').src = imageUrls1[result];
+            document.getElementById('result-image2').src = imageUrls2[result];
+
+            document.getElementById('mbti-form').classList.remove('active');
+            document.getElementById('result').classList.add('active');
+        }
+    </script>
+</body>
+</html>

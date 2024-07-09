@@ -1,0 +1,66 @@
+/* 基本樣式設置 */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('page 3.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* 響應式設計 */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+
+    button {
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+/* 圖片的響應式設計 */
+.result img {
+    max-width: 100%;
+    height: auto;
+    margin: 10px 0;
+}
+
